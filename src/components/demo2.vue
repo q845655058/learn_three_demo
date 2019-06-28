@@ -40,21 +40,21 @@ export default {
             this.scene=new THREE.Scene()
         },
         initLight(){
-            this.light=new THREE.DirectionalLight(0xff0000,1.0,0)
-            this.light.position.set(100,100,200)
-            this.scene.add(this.light)
+            //this.light=new THREE.DirectionalLight(0xff0000,1.0,0)
+            //this.light.position.set(0,0,0)
+            //this.scene.add(this.light)
         },
         initObject(){
-            let width=200
+            let width=300
             let geometry=new THREE.Geometry()
             geometry.vertices.push(new THREE.Vector3(-width,0,0))
             geometry.vertices.push(new THREE.Vector3(width,0,0))
             for(let i=0;i<=20;i++){
-                let line=new THREE.Line(geometry,new THREE.LineBasicMaterial({color:0x000000,opacity:0.2}))
+                let line=new THREE.Line(geometry,new THREE.LineBasicMaterial({color:0xff0000,opacity:0.2}))
                 line.position.z=(i*width/10)-width
                 this.scene.add(line)
 
-                let line2=new THREE.Line(geometry,new THREE.LineBasicMaterial({color:0x000000,opacity:0.2}))
+                let line2=new THREE.Line(geometry,new THREE.LineBasicMaterial({color:0x00ff00,opacity:0.2}))
                 line2.position.x=(i*width/10)-width
                 line2.rotation.y=90*Math.PI/180
                 this.scene.add(line2)

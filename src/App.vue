@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-      <Demo1 v-if='1==showid'/>>
-      <Demo2 v-if='2==showid' />>
+      <Demo1 v-if='1==showid'/>
+      <Demo2 v-if='2==showid' />
   </div>
 </template>
 <script>
