@@ -1,7 +1,11 @@
 <template>
+
     <div id='mycanvas' class='demo'></div>
 </template>
 <script>
+/**
+该demo用于绘制线条
+*/
 import * as THREE from 'three'
 export default {
   data(){

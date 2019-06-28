@@ -2,6 +2,9 @@
     <div id='demo2' class='demo'></div>
 </template>
 <script>
+/**
+该demo绘制多条线组成棋盘
+ */
 import * as THREE from 'three'
 export default {
     data() {
