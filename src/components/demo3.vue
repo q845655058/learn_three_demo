@@ -4,8 +4,10 @@
 <script>
 /**
 该demo改变相机方向来达到让物体动起来的效果
+注意：只改变摄像机并不会更改镜头方向
  */
 import * as THREE from 'three'
+
 export default {
     data() {
         return {
@@ -15,7 +17,9 @@ export default {
             light:null,
             cube:null,
             width:0,
-            heigh:0
+            heigh:0,
+            r:800,
+            angle:0
         }
     },
     methods: {
@@ -31,9 +35,9 @@ export default {
         },
         initCamera(){
             this.camera=new THREE.PerspectiveCamera(45,this.width/this.height,1,10000)
-            this.camera.position.x=0
+            this.camera.position.x=this.r
             this.camera.position.y=0
-            this.camera.position.z=400
+            this.camera.position.z=0
             this.camera.up.x=0
             this.camera.up.y=1
             this.camera.up.z=0
@@ -52,14 +56,26 @@ export default {
         },
         initObject(){
             let geometry=new THREE.CylinderGeometry(100,150,400)
-            let material=new THREE.MeshLambertMaterial({color:0xffff00})
+            let material=new THREE.MeshLambertMaterial({color:0x00f600})
+            let pos=[[0,0,0],[-800,0,-800],[-800,1,800],[-1600,0,0]]
+            for(var i=0;i<4;i++){
             let mesh=new THREE.Mesh(geometry,material)
             //mesh.position=new THREE.Vector3( 0, 1, 0 );
+            mesh.position.x=pos[i][0]
+            mesh.position.y=pos[i][1]
+            mesh.position.z=pos[i][2]
             this.scene.add(mesh)
+            }
+            
         },
         animations(){
             //this.renderer.clear()
-            this.camera.position.x=this.camera.position.x+1
+            this.angle++
+            
+            this.camera.position.x=this.r*Math.cos(this.angle*Math.PI/180)
+            this.camera.position.z=this.r*Math.sin(this.angle*Math.PI/180)
+            //每帧都重新设置lookAt可以达到摄像机围绕物体旋转
+            //this.camera.lookAt(0,0,0)
             this.renderer.render(this.scene,this.camera)
             requestAnimationFrame(this.animations)
         },
