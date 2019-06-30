@@ -47,7 +47,7 @@ export default {
             this.scene=new THREE.Scene()
         },
         initLight(){
-            this.light=new THREE.AmbientLight(0xffffff)
+            this.light=new THREE.AmbientLight(0xff0000)
             this.light.position.set(100,100,200)
             this.scene.add(this.light)
             this.light=new THREE.PointLight(0x00ff00)
@@ -56,7 +56,7 @@ export default {
         },
         initObject(){
             let geometry=new THREE.CylinderGeometry(100,150,400)
-            let material=new THREE.MeshLambertMaterial({color:0x00f600})
+            let material=new THREE.MeshLambertMaterial({color:0xc3f50f})
             let pos=[[0,0,0],[-800,0,-800],[-800,1,800],[-1600,0,0]]
             for(var i=0;i<4;i++){
             let mesh=new THREE.Mesh(geometry,material)

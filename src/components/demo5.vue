@@ -1,9 +1,10 @@
 <template>
-    <div id="demo4" class="demo"></div>
+    <div id="demo5" class="demo"></div>
 </template>
 <script>
 import * as THREE from "three"
-import Stats from 'stats';
+import Stats from 'stats.js'
+import * as dat from 'dat.gui'
 export default {
     data(){
         return {
@@ -15,12 +16,15 @@ export default {
             mesh:null,
             width:0,
             height:0,
-            state:null
+            state:null,
+            r:800,
+            angle:0,
+            controls:null
         }
     },
     methods:{
         initThree(){
-            let ele=document.getElementById('demo4')
+            let ele=document.getElementById('demo5')
             this.width=ele.clientWidth
             this.height=ele.clientHeight
             this.renderer=new THREE.WebGLRenderer({
@@ -34,10 +38,11 @@ export default {
             this.state.domElement.style.top='0px'
             this.state.domElement.style.left='0px'
             ele.appendChild(this.state.domElement)
+            
         },
         initCamera(){
             this.camera=new THREE.PerspectiveCamera(45,this.width/this.height,1,10000)
-            this.camera.position.set(0,0,500)
+            this.camera.position.set(this.r,0,0)
             this.camera.up.set(0,1,0)
             this.camera.lookAt(0,0,0)
         },
@@ -46,21 +51,35 @@ export default {
         },
         initLight(){
             this.light=new THREE.AmbientLight(0xff0000)
-            this.light.position.set(100,100,200)
+            this.light.position.set(0,0,0)
             this.scene.add(this.light)
             this.light=new THREE.PointLight(0x00ff00)
-            this.light.position.set(0,0,300)
+            this.light.position.set(-300,1000,600)
             this.scene.add(this.light)
         },
         initObject(){
             let geometry=new THREE.CylinderGeometry(100,150,400)
-            let material=new THREE.MeshLambertMaterial({color:0xfff000})
+            let material=new THREE.MeshLambertMaterial({color:0x00ff00})
+            let pos=[[0,0,0],[-800,0,-800],[-800,1,800],[-1600,0,0]]
+            for(var i=0;i<4;i++){
             this.mesh=new THREE.Mesh(geometry,material)
-            this.mesh.position.set(0,0,0)
+            //mesh.position=new THREE.Vector3( 0, 1, 0 );
+            this.mesh.position.x=pos[i][0]
+            this.mesh.position.y=pos[i][1]
+            this.mesh.position.z=pos[i][2]
             this.scene.add(this.mesh)
+            }
+            this.controls=new dat.GUI()
         },
         animations(){
-            this.mesh.position.x+=1
+            //this.renderer.clear()
+            this.angle++
+            
+            this.camera.position.x=this.r*Math.cos(this.angle*Math.PI/180)
+            this.camera.position.z=this.r*Math.sin(this.angle*Math.PI/180)
+            //每帧都重新设置lookAt可以达到摄像机围绕物体旋转
+            //this.camera.lookAt(0,0,0)
+           
             this.renderer.render(this.scene,this.camera)
             this.state.update()
             requestAnimationFrame(this.animations)
