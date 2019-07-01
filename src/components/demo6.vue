@@ -8,7 +8,7 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
 
-const materialPath='http://pic1.sc.chinaz.com/files/pic/pic9/201906/zzpic18767.jpg'
+const materialPath='sucai.jpg'
 export default {
     data() {
         return {
@@ -47,14 +47,12 @@ export default {
             this.scene.add(this.light)
         },
         initObject(){
-            let geometry=new THREE.PlaneGeometry(100,200,1,1)
+            let geometry=new THREE.PlaneGeometry(500,500)
             geometry.vertices[0].uv=new THREE.Vector2(0,0)
             geometry.vertices[1].uv=new THREE.Vector2(1,0)
             geometry.vertices[2].uv=new THREE.Vector2(1,1)
             geometry.vertices[3].uv=new THREE.Vector2(0,1)
 
-            // let textrue=new THREE.ImageUtils.loadTexture(materialPath,null,function(d){
-            // })
             let textrue=new THREE.TextureLoader().load(materialPath)
             let material=new THREE.MeshBasicMaterial({map:textrue})
             let mesh=new THREE.Mesh(geometry,material)
