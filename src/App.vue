@@ -7,6 +7,7 @@
       <Demo5 v-if='5==showid' />
       <Demo6 v-if='6==showid' />
       <Demo7 v-if='7==showid' />
+      <Demo8 v-if='8==showid' />
   </div>
 </template>
 <script>
@@ -17,10 +18,11 @@ import Demo4 from './components/demo4'
 import Demo5 from './components/demo5'
 import Demo6 from './components/demo6'
 import Demo7 from './components/demo7'
+import Demo8 from './components/demo8'
 export default {
   data() {
     return {
-      showid:7
+      showid:8
     }
   },
   components:{
@@ -31,6 +33,7 @@ export default {
     Demo5,
     Demo6,
     Demo7,
+    Demo8,
   }
 }
 </script>
