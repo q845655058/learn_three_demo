@@ -1,5 +1,7 @@
 <template>
-    <div id='demo8' class='demo'></div>
+    <div id='demo8' class='demo'>
+       
+    </div>
 </template>
 <script>
 /**
@@ -20,21 +22,24 @@ export default {
             height:null,
             gui:null,
             canvas:null,
-            ctx:null
+            ctx:null,
+            texture:null,
+            mesh:null
         }
     },
     methods: {
         initCanvas(){
             this.ctx=document.createElement('canvas')
+            this.ctx.width=100
+            this.ctx.height=100
             this.canvas=this.ctx.getContext('2d')
             this.canvas.beginPath()
-            this.canvas.lineWidth=10
-            this.canvas.strokeStyle="#000"
-            var grd = this.canvas.createLinearGradient(0,0,100,0);//从左到右
-            grd.addColorStop(0,"#ff0"); //起始颜色
-            grd.addColorStop(1,"#00ff00"); //终点颜色
+   
+            var grd = this.canvas.createLinearGradient(0, 0, 0, this.ctx.height);
+            grd.addColorStop(0,"#1e4877"); //起始颜色
+            grd.addColorStop(1,"#4584b4"); //终点颜色
             this.canvas.fillStyle=grd;
-            this.canvas.arc(100,100,50,0.75*Math.PI,2.25*Math.PI,false);
+            this.canvas.fillRect(0, 0, this.ctx.width, this.ctx.height);
             this.canvas.stroke()
         },
         initThree(){
@@ -57,26 +62,27 @@ export default {
             this.scene=new THREE.Scene()
         },
         initLight(){
-            this.light=new THREE.AmbientLight(0xff0000)
+            this.light=new THREE.AmbientLight(0xffffff)
             this.light.position.set(0,0,100)
             this.scene.add(this.light)
         },
         initObject(){
-            let geometry=new THREE.PlaneGeometry(500,500)
-            geometry.vertices[0].uv=new THREE.Vector2(0,0)
-            geometry.vertices[1].uv=new THREE.Vector2(1,0)
-            geometry.vertices[2].uv=new THREE.Vector2(1,1)
-            geometry.vertices[3].uv=new THREE.Vector2(0,1)
+            let geometry=new THREE.CubeGeometry(150,150,150)
 
-            let textrue=new THREE.Texture(this.ctx)
-            textrue.needsUpdate=true
-            let material=new THREE.MeshBasicMaterial({map:textrue})
-            let mesh=new THREE.Mesh(geometry,material)
-            this.scene.add(mesh)
+
+            this.texture=new THREE.Texture(this.ctx)
+            
+            let material=new THREE.MeshBasicMaterial({map:this.texture})
+            this.mesh=new THREE.Mesh(geometry,material)
+            this.texture.needsUpdate=true
+            this.scene.add(this.mesh)
 
         },
         animates(){
-            //requestAnimationFrame(this.animates)
+             this.texture.needsUpdate = true;
+        this.mesh.rotation.y -= 0.01;
+        this.mesh.rotation.x -= 0.01;
+            requestAnimationFrame(this.animates)
             this.renderer.render(this.scene,this.camera)
         }   
     },
