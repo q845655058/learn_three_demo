@@ -59,7 +59,6 @@ export default {
                 new THREE.Vector3(100,0,0),
                 new THREE.Vector3(0,100,0)
             )
-            console.log(geometry)
             let face=new THREE.Face3(0,1,2)
             face.vertexColors.push(new THREE.Color( 0xff0000 ),new THREE.Color( 0x00ff00 ),
             new THREE.Color( 0x0000aa ))
