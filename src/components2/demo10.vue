@@ -4,8 +4,8 @@
 
 <script>
 import * as THREE from 'three'
-import OBJLoader from 'three-obj-loader'
-OBJLoader(THREE)
+import {MTLLoader, OBJLoader} from 'three-obj-mtl-loader'
+import * as OrbitControls from 'three-orbitcontrols'
 export default {
     data() {
         return {
@@ -31,7 +31,7 @@ export default {
         },
         initCamera(){
             this.camera=new THREE.PerspectiveCamera(45,this.width/this.height,1,10000)
-            this.camera.position.set(0,0,50)
+            this.camera.position.set(0,0,-50)
             this.camera.up.set(0,1,0)
             this.camera.lookAt(0,5,0)
         },
@@ -39,18 +39,41 @@ export default {
             this.scene=new THREE.Scene()
         },
         initLight(){
-            this.light=new THREE.AmbientLight(0xff00ff)
-            this.light.position.set(0,0,50)
+            this.light=new THREE.PointLight()
+            this.light.position.set(0,10,-20)
+            this.scene.add(this.light)
+            this.light=new THREE.PointLight()
+            this.light.position.set(0,10,20)
             this.scene.add(this.light)
         },
         initObject(){
-            let loader=new THREE.OBJLoader()
-            let material=new THREE.MeshLambertMaterial({color:0xaaaaaa})
-            loader.load('Miku/mikumode.obj',event => {
-                console.log(event)
-                this.scene.add(event)
-                
-            },null,null,null,false)
+            let loader=new OBJLoader()
+            let mtlloader=new MTLLoader()
+            
+            mtlloader.setBaseUrl( "Miku/" );
+            mtlloader.setPath( "Miku/" );
+            mtlloader.load('mikuMTL.mtl',mtl =>{
+                mtl.preload()
+                loader.setMaterials(mtl)
+                loader.load('Miku/mikumode.obj',event => {
+                    event.position.set(0,-5,0)
+                    this.scene.add(event)
+                })
+            })
+            
+        },
+        initControls(){
+            this.controls=new OrbitControls(this.camera,this.renderer.domElement)
+            //this.controls.target.set(0,5,0)
+            //this.controls.addEventListener('change',this.render)
+            this.controls.enableDamping=true
+            //this.controls.dampingFactor=0.25
+            this.controls.enableZoom=true
+            this.controls.autoRotate=false
+            this.controls.autoRotateSpeed=0.5
+            this.controls.minDistance=1
+            this.controls.maxDistance=2000
+            this.controls.enablePan=true
         },
         animates(){
             this.renderer.render(this.scene,this.camera)
@@ -63,6 +86,7 @@ export default {
         this.initScene()
         this.initLight()
         this.initObject()
+        this.initControls()
         this.animates()
     },
 }
