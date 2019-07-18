@@ -14,6 +14,7 @@
       <Demo12 v-if='12==showid' />
       <Demo13 v-if='13==showid' />
       <Demo14 v-if='14==showid' />
+      <Demo15 v-if='15==showid' />
   </div>
 </template>
 <script>
@@ -31,10 +32,11 @@ import Demo11 from './components2/demo11'
 import Demo12 from './components2/demo12'
 import Demo13 from './components2/demo13'
 import Demo14 from './components2/demo14'
+import Demo15 from './components2/demo15'
 export default {
   data() {
     return {
-      showid:14
+      showid:15
     }
   },
   components:{
@@ -52,6 +54,7 @@ export default {
     Demo12,
     Demo13,
     Demo14,
+    Demo15,
   }
 }
 </script>
