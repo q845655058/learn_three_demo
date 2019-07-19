@@ -9,7 +9,7 @@
 import * as THREE from 'three'
 import * as OrbitControls from 'three-orbitcontrols'
 import  GLTFLoader  from 'three-gltf-loader'
-
+import Stats from 'stats.js'
 export default {
     data() {
         return {
@@ -21,7 +21,8 @@ export default {
             height:0,
             miku:null,
             deg:0,
-            group:null
+            points:null,
+            state:null,
         }
     },
     methods: {
@@ -35,11 +36,15 @@ export default {
             this.renderer.setSize(this.width,this.height)
             ele.appendChild(this.renderer.domElement)
             this.renderer.setClearColor(0xf7f7f7)
-          
+           this.state=new Stats()
+            this.state.domElement.style.position='absolute'
+            this.state.domElement.style.top='0px'
+            this.state.domElement.style.left='0px'
+            ele.appendChild(this.state.dom)
         },
         initCamera(){
-            this.camera=new THREE.PerspectiveCamera(35,this.width/this.height,1,5000)
-            this.camera.position.set(0,0,3750)
+            this.camera=new THREE.PerspectiveCamera(35,this.width/this.height,5,5000)
+            this.camera.position.set(0,0,3250)
             this.camera.up.set(0,1,0)
             this.camera.lookAt(0,0,0)
         },
@@ -92,8 +97,8 @@ export default {
             geometry.addAttribute('color',new THREE.InterleavedBufferAttribute(buffer8,3,12,true))
 
             let material =new THREE.PointsMaterial({size:15,vertexColors:THREE.VertexColors})
-            let points=new THREE.Points(geometry,material)
-            this.scene.add(points)
+            this.points=new THREE.Points(geometry,material)
+            this.scene.add(this.points)
         },
         initControls(){
             this.controls=new OrbitControls(this.camera,this.renderer.domElement)
@@ -106,7 +111,11 @@ export default {
             this.controls.enablePan=true
         },
         animates(){
+            let time=Date.now()*0.001
+            this.points.rotation.x=time*0.25
+            this.points.rotation.y=time*0.5
             this.renderer.render(this.scene,this.camera)
+            this.state.update()
             requestAnimationFrame(this.animates)
         }
     },
@@ -116,7 +125,7 @@ export default {
         this.initScene()
         //this.initLight()
         this.initObject()
-        this.initControls()
+        //this.initControls()
         this.animates()
     },
 }
