@@ -1,5 +1,5 @@
 <template>
-    <div id='demo14' class='fulldemo'></div>
+    <div id='demo15' class='fulldemo'></div>
 </template>
 
 <script>
@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         initThree(){
-            let ele=document.getElementById('demo14')
+            let ele=document.getElementById('demo15')
             this.width=ele.clientWidth
             this.height=ele.clientHeight
             this.renderer=new THREE.WebGLRenderer({
@@ -43,8 +43,8 @@ export default {
             ele.appendChild(this.state.dom)
         },
         initCamera(){
-            this.camera=new THREE.PerspectiveCamera(35,this.width/this.height,5,5000)
-            this.camera.position.set(0,0,3250)
+            this.camera=new THREE.PerspectiveCamera(35,this.width/this.height,5,3750)
+            this.camera.position.set(0,0,2750)
             this.camera.up.set(0,1,0)
             this.camera.lookAt(0,0,0)
         },
